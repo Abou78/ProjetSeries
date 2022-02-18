@@ -1,11 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    todo afficher le titre de la série | {{ parent() }}
+    {{ serie.name }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <h2>todo: afficher le titre de la série</h2>
+    <div class="serie-details">
+        <div>
+            <img src="{{ asset('images/posters/series/' ~ serie.poster ) }}" alt="{{ serie.name }}">
+        </div>
+    </div>
+    <div>
+        <h2>{{ serie.name }}</h2>
+        <div>User ratings: {{ serie.vote }}</div>
+        <div>Categorized in: {{ serie.genres }}</div>
+        <div>Serie status: {{ serie.status }}</div>
+        <div>Aired from {{ serie.firstAirDate|date("Y-m-d") }} to {{ serie.lastAirDate|date("Y-m-d") }}</div>
+        <div>{{ serie.overview|nl2br }}</div>
 
-    {# todo: afficher toutes les infos de la série #}
+        <section class="seasons">
+            <h3>Seasons</h3>
+            {% for season in serie.seasons %}
+                <article>
+                    <img src="{{ asset('images/posters/seasons/' ~ season.poster) }}" alt="{{ serie.name }} seasons #{{ season.number }}">
+                    <div>
+                        <h4>Season {{ season.number }}</h4>
+                        {% if season.overview %}
+                            <div>{{ season.overview }}</div>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+
+{% endblock %}
+
+{% block extrastyles %}
+    <style>
+        body{
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url("{{ asset('images/backdrops/' ~ serie.backdrop) }}");
+        }
+    </style>
 {% endblock %}
